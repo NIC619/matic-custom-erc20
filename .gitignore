@@ -1,0 +1,8 @@
+.DS_Store
+
+.secret
+
+artifacts
+cache
+node_modules
+typechain
