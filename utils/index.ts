@@ -32,9 +32,12 @@ export const LONChildERC20 = new ethers.Contract(
 // utils
 
 export async function getLONChildERC20Balance(address: string): Promise<BigNumber> {
-  return LONChildERC20.connect(maticSigner).balanceOf(address)
+  return LONChildERC20.balanceOf(address)
 }
 
+export async function getLONChildERC20Allowance(owner: string, spender: string): Promise<BigNumber> {
+  return LONChildERC20.allowance(owner, spender)
+}
 
 export async function permitSign(
     wallet: Wallet,

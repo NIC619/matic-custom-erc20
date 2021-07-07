@@ -1,29 +1,30 @@
 import { ethers } from "hardhat"
 import {
-  ethSigner,
   maticSigner,
   LONChildERC20,
-  getLONChildERC20Balance,
+  getLONChildERC20Allowance,
   permitSign,
 } from "@utils"
 
+const SPENDER_ADDRESS = "0xE3c19B6865f2602f30537309e7f8D011eF99C1E0"
 
 async function main() {
   console.log(
-    `Token balance before permit: ${await getLONChildERC20Balance(
-      maticSigner.address
+    `Allowance before permit: ${await getLONChildERC20Allowance(
+      maticSigner.address,
+      SPENDER_ADDRESS
     )}`
   )
   let val = ethers.utils.parseUnits('1')
   let signed = await permitSign(
       maticSigner,
       LONChildERC20,
-      { spender: ethSigner.address, value: val },
+      { spender: SPENDER_ADDRESS, value: val },
       ethers.constants.MaxUint256,
   )
   console.log(
     maticSigner.address,
-      ethSigner.address,
+      SPENDER_ADDRESS,
       val,
       ethers.constants.MaxUint256,
       signed.v,
@@ -32,7 +33,7 @@ async function main() {
   )
   await LONChildERC20.connect(maticSigner).permit(
       maticSigner.address,
-      ethSigner.address,
+      SPENDER_ADDRESS,
       val,
       ethers.constants.MaxUint256,
       signed.v,
@@ -42,8 +43,9 @@ async function main() {
   await new Promise((resolve) => {
     setTimeout(async () => {
       console.log(
-        `Balance after permit: ${await getLONChildERC20Balance(
-          maticSigner.address
+        `Allowance after permit: ${await getLONChildERC20Allowance(
+          maticSigner.address,
+          SPENDER_ADDRESS
         )}`
       )
       resolve(true)
