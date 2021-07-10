@@ -1539,13 +1539,6 @@ contract LONChildERC20 is ChildERC20 {
         );
     }
 
-    function depositByAdmin(address user, uint256 amount)
-        external
-        only(DEFAULT_ADMIN_ROLE)
-    {
-        _mint(user, amount);
-    }
-
     function permit(address owner, address spender, uint256 value, uint256 deadline, uint8 v, bytes32 r, bytes32 s) external {
         require(owner != address(0), "zero address");
         require(block.timestamp <= deadline || deadline == 0, "permit is expired");
