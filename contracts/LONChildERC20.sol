@@ -1524,16 +1524,12 @@ contract LONChildERC20 is ChildERC20 {
     ) public ChildERC20(name_, symbol_, decimals_, childChainManager) {
         emergencyRecipient = emergencyRecipient_;
 
-        uint256 chainId ;
-        assembly {
-            chainId := chainid()
-        }
         DOMAIN_SEPARATOR =  keccak256(
             abi.encode(
                 keccak256("EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)"),
                 keccak256(bytes(name())),
                 keccak256(bytes("1")),
-                chainId,
+                getChainId(),
                 address(this)
             )
         );
